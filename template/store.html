@@ -1,0 +1,224 @@
+{% extends './base.html' %}
+{% load static %}
+{% block content %}
+
+		<!-- BREADCRUMB -->
+		<div id="breadcrumb" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<ul class="breadcrumb-tree">
+							<li><a href="{% url 'home' %}">HOGAR</a></li>
+							<li><a href="{% url 'store' %}">TODAS LAS CATEGORIAS</a></li>
+							<li><a href="{% url 'store' %}">ACCESORIOS</a></li>
+							<li class="active">AURICULARES (227,490 RESULTADOS)</li>
+						</ul>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /BREADCRUMB -->
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<!-- ASIDE -->
+					<div id="aside" class="col-md-3">
+						<!-- aside Widget -->
+						<div class="aside">
+							<h3 class="aside-title">CATEGORIAS</h3>
+							<div class="checkbox-filter">
+								{% for i in categoria %}
+									<div class="input-checkbox">
+										<input type="checkbox" id="category-1">
+										<label for="category-1">
+											<span></span>
+											{{i.name|upper}}
+											<small>(120)</small>
+										</label>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+						<!-- /aside Widget -->
+
+						<!-- aside Widget PRICE-->
+						<div class="aside">
+							<h3 class="aside-title">PRECIO</h3>
+							<div class="price-filter">
+								<div id="price-slider"></div>
+								<div class="input-number price-min">
+									<input id="price-min" type="number">
+									<span class="qty-up">+</span>
+									<span class="qty-down">-</span>
+								</div>
+								<span>-</span>
+								<div class="input-number price-max">
+									<input id="price-max" type="number">
+									<span class="qty-up" id="up">+</span>
+									<span class="qty-down">-</span>
+								</div>
+							</div>
+						</div>
+						<!-- /aside Widget -->
+
+						<!-- aside Widget -->
+						<div class="aside">
+							<h3 class="aside-title">MARCA</h3>
+							<div class="checkbox-filter">
+								{% for i in marcas %}
+									<div class="input-checkbox">
+										<input type="checkbox" id="brand-1">
+										<label for="brand-1">
+											<span></span>
+											{{i.name|upper}}
+											<small>(578)</small>
+										</label>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+						<!-- /aside Widget -->
+
+						<!-- aside Widget -->
+						<div class="aside">
+							<h3 class="aside-title">MÁS VENDIDOS</h3>
+							<div class="product-widget">
+								<div class="product-img">
+									<img src="{% static 'img/product01.png' %}" alt="">
+								</div>
+								<div class="product-body">
+									<p class="product-category">CATEGORÍA</p>
+									<h3 class="product-name"><a href="#">EL NOMBRE DEL PRODUCTO VA AQUÍ</a></h3>
+									<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+								</div>
+							</div>
+
+							<div class="product-widget">
+								<div class="product-img">
+									<img src="{% static 'img/product02.png' %}" alt="">
+								</div>
+								<div class="product-body">
+									<p class="product-category">CATEGORÍA</p>
+									<h3 class="product-name"><a href="#">EL NOMBRE DEL PRODUCTO VA AQUÍ</a></h3>
+									<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+								</div>
+							</div>
+
+							<div class="product-widget">
+								<div class="product-img">
+									<img src="{% static 'img/product03.png' %}" alt="">
+								</div>
+								<div class="product-body">
+									<p class="product-category">CATEGORÍA</p>
+									<h3 class="product-name"><a href="#">EL NOMBRE DEL PRODUCTO VA AQUÍ</a></h3>
+									<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+								</div>
+							</div>
+						</div>
+						<!-- /aside Widget -->
+					</div>
+					<!-- /ASIDE -->
+
+					<!-- STORE -->
+					<div id="store" class="col-md-9">
+						<!-- store top filter -->
+						<div class="store-filter clearfix">
+							<div class="store-sort">
+								<label>
+									ORDENAR POR:
+									<select class="input-select">
+										<option value="0">Popular</option>
+										<option value="1">Posición</option>
+									</select>
+								</label>
+
+								<label>
+									Ver:
+									<select class="input-select">
+										<option value="0">20</option>
+										<option value="1">50</option>
+									</select>
+								</label>
+							</div>
+							<!--ul class="store-grid">
+								<li class="active"><i class="fa fa-th"></i></li>
+								<li><a href="#"><i class="fa fa-th-list"></i></a></li>
+							</ul-->
+						</div>
+						<!-- /store top filter -->
+
+						<!-- store products -->
+						<div class="row">
+							{% for i in articulo %}
+								<!-- product -->
+								<div class="col-md-4 col-xs-6">
+									<div class="product">
+										<div class="product-img">
+											<img src="{{i.img_mostrador.url}}" title="No hay imagen de {{i.name}}" alt="Imagen de {{i.name}}">
+											<div class="product-label">
+												{% if i.oferta != '0' %}
+													<span class="sale">-{{i.oferta}}%</span>
+													<!-- <span class="new"></span> -->
+												{% endif %}
+											</div>
+										</div>
+										<div class="product-body">
+											<p class="product-category">{{i.marca.categoria.name|upper}}</p>
+											<h3 class="product-name"><a href="#">{{i.name}}</a></h3>
+											<h4 class="product-price"> {% if i.oferta != '0' %}${{i.descuento}}&nbsp;<del class="product-old-price">${{i.precio}}</del>{% else %}${{i.precio}}{% endif %}</h4>
+											<div class="product-btns">
+												<button class="quick-view"><a href="{% url 'product' i.pk %}" style="text-decoration:none;"><i class="fa fa-eye"></i><span class="tooltipp">Ver Producto</span></a></button>
+											</div>
+										</div>
+										<div class="add-to-cart">
+											<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> añadir al carrito</button>
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+						<!-- /store products -->
+
+						<!-- store bottom filter -->
+						<div class="store-filter clearfix">
+							<span class="store-qty">MOSTRANDO 20-100 PRODUCTOS</span>
+							<ul class="store-pagination">
+								<li class="active">1</li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+							</ul>
+						</div>
+						<!-- /store bottom filter -->
+					</div>
+					<!-- /STORE -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+{% endblock %}
+
+{% block script %}
+
+	<script>
+		$(document).ready(function(){
+			
+		});
+	</script>
+
+{% endblock %}
+
+
+
+

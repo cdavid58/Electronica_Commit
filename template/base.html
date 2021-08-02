@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>Electro</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+
+	<!-- Slick -->
+	<link type="text/css" rel="stylesheet" href="{% static 'css/slick.css' %}"/>
+	<link type="text/css" rel="stylesheet" href="{% static 'css/slick-theme.css' %}"/>
+
+	<!-- nouislider -->
+	<link type="text/css" rel="stylesheet" href="{% static 'css/nouislider.min.css' %}"/>
+
+	<!-- Font Awesome Icon -->
+	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}"/>
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+
+	{% include './menu.html' %}
+	{% block content %}{% endblock %}
+	{% include './footer.html' %}
+
+	<!-- jQuery Plugins -->
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/slick.min.js' %}"></script>
+	<script src="{% static 'js/nouislider.min.js' %}"></script>
+	<script src="{% static 'js/jquery.zoom.min.js' %}"></script>
+	<script src="{% static 'js/main.js' %}"></script>
+	<script src="{% static 'notify.min.js' %}"></script>
+	{% block script %}{% endblock %}
+	<script>
+		$(document).ready(function(){
+			$("a[type='button'").click(function(){
+				console.log(this.id);
+				$.ajax({
+					url:'/cart_remove/',
+					data:{'id':this.id},
+					success: function(data){
+						$("#pather").empty();
+						var obj = JSON.parse(data);
+						console.log(obj);
+						if(obj.length > 0){
+							for(var i = 0; i < obj.length; i++){
+								$("#pather").append(`
+									<div class="product-widget">
+										<div class="product-img">
+											<img src="`+obj[i]['img']+`" alt="">
+										</div>
+										<div class="product-body">
+											<h3 class="product-name"><a href="#">`+ obj[i]['articulo'] +`</a></h3>
+											<h4 class="product-price"><span class="qty">`+obj[i]['cantidad']+` x</span>`+obj[i]['total']+`.0</h4>
+										</div>
+										<a id="{{i.codigo}}" href="javascript:void(0);" type="button" class="delete"><i class="fa fa-close"></i></a>
+									</div>
+								`);
+							}
+						}
+						else{
+							$("#subtotal").empty();
+							$("#subtotal").append(`SUBTOTAL: $0.0`);
+							$("#pather").append(`<h3>El carrito esta vacio</h3>`);
+							$("#totalValues").empty();
+							$("#totalValues").text(obj.length+` artículo (s) seleccionado`);
+						}
+						// $("#carrito").text(data);
+					}
+				});
+			});
+		});
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+{% extends './base.html' %}
+{% block content %}
+<br><br>
+<div class="container">
+	<div class="row">
+		<h2 class="text-center">Gracias. Tú pedido ha sido recibido.</h2>
+	</div>
+</div>
+<br>
+<div class="container">
+	<div class="row">
+		<div class="table-responsive-sm">
+			<table class="table table-borderless">
+				<thead>
+					<tr>
+						<th>
+							Número de pedido:
+						</th>
+						<th>
+							Fecha:
+						</th>
+						<th>
+							Total:
+						</th>
+						<th>
+							Método de pago:
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{np}}</td>
+						<td>{{date}}</td>
+						<td>${{total}}</td>
+						<td>{{methodPaymet}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div><br><br><br>
+<div class="container">
+	<div class="table-responsive-sm">
+		<table class="table table-sm">
+			<thead>
+				<tr>
+					<th>Producto</th>
+					<th>Cantidad</th>
+					<th>Precio</th>
+					<th>Descuento</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for i in order %}
+					<tr class="filas">
+						<td>{{i.name}}</td>
+						<td>{{i.quanty}}</td>
+						<td>{{i.price}}</td>
+						<td>{{i.discount}}%</td>
+						<td>{{i.total}}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+<br>
+<div class="container">
+	<div class="row">
+		<table class="ml-auto">
+			<tbody>
+				<tr>
+					<td><h5>Subtotal: {{subtotal}}$</h5></td>
+				</tr>
+				<tr>
+					<td><h5>Envio: 0$</h5></td>
+				</tr>
+				<tr>
+					<td><h5>Descuento: {{discount}}$</h5></td>
+				</tr>
+				<tr>
+					<td><h5>Total: {{total}}$</h5></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<br><br>
+{% endblock %}
